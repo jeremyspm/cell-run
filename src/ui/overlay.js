@@ -54,7 +54,7 @@ export function createOverlay() {
         <p>You're a red blood cell, low on oxygen, coming back from the upper body. The heart's rhythm is broken, and you're stuck in the right atrium until you fix it.</p>
         <details><summary>What is this?</summary>
           <p>A study game for first-year A&amp;P. The level <i>is</i> the anatomy: you learn where things are by swimming past them and scanning them. The puzzles <i>are</i> the physiology: valves open only when the pressure behind them is higher, and you fix the rhythm by setting the AV node's delay.</p>
-          <p>About 10–15 minutes. There's no dying. Nothing is saved or sent anywhere.</p></details>
+          <p>About 10–15 minutes. There's no dying. Nothing is saved or sent anywhere.</p><p style="font-size:.85em;color:#b8909c">Heart sounds: stethoscope recording by Emily Hope (CC BY-SA 4.0) via Wikimedia Commons. Full credits in audio/CREDITS.md.</p></details>
         <h2>Controls</h2>${CONTROLS}`,
       [{ label: 'Start', onClick: () => { this.closeScreen(); onStart(); } }]);
     },
