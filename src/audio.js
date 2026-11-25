@@ -74,6 +74,6 @@ export function createAudio(variant = 'a') {
 
 export function pickVariant() {
   const q = new URLSearchParams(location.search).get('sound');
-  const v = q || localStorage.getItem('cellrun-sound') || 'a';
-  return ['a', 'b', 'c', 'd', 'e', 'f'].includes(v) ? v : 'a';
+  const v = q || localStorage.getItem('cellrun-sound') || 'd'; // Jeremy's pick: real stethoscope recording
+  return ['a', 'b', 'c', 'd', 'e', 'f'].includes(v) ? v : 'd';
 }

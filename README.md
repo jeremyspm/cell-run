@@ -18,7 +18,7 @@ On a touch screen, an on-screen stick and buttons appear.
 
 ## Sound
 
-`sound-test.html` plays six heartbeat styles: three synthesised (A–C) and three real recordings (D–F). The one you pick is remembered on that device. You can also force one with `?sound=a` to `?sound=f`.
+`sound-test.html` plays six heartbeat styles: three synthesised (A–C) and three real recordings (D–F). The default is D, the stethoscope recording. The one you pick is remembered on that device. You can also force one with `?sound=a` to `?sound=f`.
 
 The recordings come from Wikimedia Commons and are credited in [audio/CREDITS.md](audio/CREDITS.md):
 - D: Emily Hope, CC BY-SA 4.0
