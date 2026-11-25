@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cell Run · pick the heartbeat</title>
+<style>
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:#12060a; color:#f6e6ea; font:17px/1.5 system-ui,sans-serif; }
+  main { max-width:520px; padding:24px; }
+  h1 { font-size:1.4rem; margin:0 0 6px; }
+  p { color:#d8aab6; }
+  button { display:block; width:100%; font:inherit; font-weight:600; text-align:left; padding:14px 16px; margin:10px 0; border-radius:12px; border:1px solid rgba(255,170,190,.35); background:rgba(40,10,20,.9); color:#fff; cursor:pointer; }
+  button.playing { border-color:#ffd68c; }
+  button span { display:block; font-weight:400; color:#d8aab6; font-size:.9rem; }
+  .pick { background:#e0242f; border:0; text-align:center; }
+  #saved { color:#5fd39a; min-height:1.5em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Pick the heartbeat</h1>
+  <p>Each one plays three "lub-dubs" at game speed (about 10 seconds). Pick the one that sounds most like a heart. Headphones help, because the sounds are low.</p>
+  <button data-v="a">A · Sine thump <span>Clean, deep, a bit synthetic</span></button>
+  <button data-v="b">B · Noise thud <span>Muffled and fleshy, like through a stethoscope</span></button>
+  <button data-v="c">C · Layered <span>A and B together</span></button>
+  <p id="saved"></p>
+</main>
+<script type="module">
+  import { createAudio } from './src/audio.js';
+  const players = {};
+  for (const b of document.querySelectorAll('button[data-v]')) {
+    b.onclick = () => {
+      const v = b.dataset.v;
+      const a = players[v] || (players[v] = createAudio(v));
+      a.resume();
+      const t0 = a.ctx.currentTime + 0.1;
+      for (let i = 0; i < 3; i++) { a.s1(t0 + i * 4.8); a.s2(t0 + i * 4.8 + 1.7); }
+      document.querySelectorAll('button[data-v]').forEach(x => x.classList.toggle('playing', x === b));
+      localStorage.setItem('cellrun-sound', v);
+      document.getElementById('saved').textContent = `Saved: the game will use ${v.toUpperCase()} on this device. Tell Claude which one you picked.`;
+    };
+  }
+</script>
+</body>
+</html>
