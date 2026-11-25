@@ -87,3 +87,8 @@ test('no valve chatter: one tricuspid close and one pulmonary close per beat', (
     assert.ok(tClose <= 5 && pClose <= 5, `avDelay ${avDelay}: ${tClose} tricuspid closes, ${pClose} pulmonary closes in 5 beats`);
   }
 });
+
+test('solved AV range never means first-degree block (PR = 0.06 + delay must stay <= 0.20 s)', () => {
+  assert.equal(isAvDelaySolved(0.14), true);
+  assert.equal(isAvDelaySolved(0.15), false);
+});

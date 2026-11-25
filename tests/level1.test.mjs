@@ -99,3 +99,13 @@ test('arrival moves on after 20 s', () => {
   assert.equal(ls.part, 'broken-door');
   assert.ok(inRA(SPAWN.x, SPAWN.y + 200));
 });
+
+test('RV climb needs swimming: an idle cell on the RV floor does not get out in 60 s', () => {
+  const heart = createHeartModel({ avDelay: NORMAL_AV_DELAY });
+  let p = createPlayer(700, 2250);
+  for (let t = 0; t < 60; t += DT) {
+    heart.tick(DT);
+    p = stepPlayer(p, { x: 0, y: 0, burst: false }, currentAt(p.x, p.y, heart.state), segmentsFor(heart.state), DT);
+  }
+  assert.ok(!(p.y < 1150 && p.x > 1150), `idle cell drifted to the outflow tract (${Math.round(p.x)}, ${Math.round(p.y)})`);
+});

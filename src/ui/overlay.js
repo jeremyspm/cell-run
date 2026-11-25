@@ -44,6 +44,7 @@ export function createOverlay() {
 
   return {
     remove() { clearTimeout(toastTimer); for (const n of [hint, toast, dial]) n.remove(); if (screen) screen.remove(); screen = null; },
+    scrollScreen(dy) { const p = screen && screen.querySelector('.panel'); if (p) p.scrollTop += dy; },
     get screenOpen() { return !!screen; },
     clickPrimary() { const b = screen && screen.querySelector('button'); if (b) b.click(); },
     closeScreen() { if (screen) { screen.remove(); screen = null; } },

@@ -6,7 +6,7 @@
 // Tuned numbers (bot tests in tests/level1.test.mjs depend on these):
 //   CURRENT_UNIT 300 px/s; RA filling 1.0 early / 0.7 atrial kick / 0.3 otherwise;
 //   cannon backwash 2.2 upward over the RA for the rest of a beat in which `heart.cannon` was set (gameplay exaggeration, said so in SOLVE_NOTES.cannonWave);
-//   ejection 1.6 in the outflow tract and trunk, 0.4 elsewhere in the RV; 0.2 down through an open tricuspid.
+//   ejection 1.6 in the outflow tract and trunk, 0 elsewhere in the RV (the climb needs swimming); 0.2 down through an open tricuspid.
 import { isAvDelaySolved } from './heart-model.js';
 
 export const WORLD = { width: 1800, height: 2600 };
@@ -74,7 +74,7 @@ export function currentAt(x, y, h) {
   }
   if (h.valves.pulmonary) {
     if (inOutflow(x, y)) return { x: 0, y: -1.6 * U };
-    return toward(x, y, 1400, 1100, 0.4 * U);
+    return { x: 0, y: 0 }; // outside the outflow tract you have to swim; only the outflow stream carries you
   }
   if (h.valves.tricuspid && y < 1400 && x < 1000) return { x: 0, y: 0.2 * U };
   return { x: 0, y: 0 };

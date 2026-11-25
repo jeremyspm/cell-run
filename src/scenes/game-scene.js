@@ -113,9 +113,13 @@ const audio = { instance: null };
 function createSoundView(scene) {
   if (!audio.instance) {
     audio.instance = createAudio(pickVariant());
-    const wake = () => audio.instance.resume();
-    window.addEventListener('pointerdown', wake, { once: true });
-    window.addEventListener('keydown', wake, { once: true });
+    // Keep trying on every key/tap until the browser lets audio start (some keys, e.g. Esc, don't count).
+    const wake = () => {
+      audio.instance.resume();
+      if (audio.instance.ctx && audio.instance.ctx.state === 'running') { window.removeEventListener('pointerdown', wake); window.removeEventListener('keydown', wake); }
+    };
+    window.addEventListener('pointerdown', wake);
+    window.addEventListener('keydown', wake);
   }
   const a = audio.instance;
   scene.events.on('heart-event', e => {

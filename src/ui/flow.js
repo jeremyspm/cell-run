@@ -69,6 +69,7 @@ export function createFlow(scene, { strip }) {
     update({ heart, dialOpen }) {
       const inp = scene.lastInput;
       if (ui.screenOpen && inp && inp.confirm) ui.clickPrimary();
+      if (ui.screenOpen && inp && Math.abs(inp.y) > 0.3) ui.scrollScreen(inp.y * 14); // stick / keys scroll the codex
       ui.dial(dialOpen && !scene.paused, heart.avDelay, (v) => { scene.pendingDial = v; });
     },
     destroy() { clearTimeout(hintTimer); ui.remove(); },

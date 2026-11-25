@@ -7,7 +7,7 @@ export const TIME_SCALE = 1 / 6;       // one game beat ≈ 4.8 s
 export const NORMAL_AV_DELAY = 0.10;
 export const BROKEN_AV_DELAY = 0;
 export const AV_SOLVED_MIN = 0.06;
-export const AV_SOLVED_MAX = 0.16;
+export const AV_SOLVED_MAX = 0.14; // PR = 0.06 conduction + delay stays <= 0.20 s (above that is first-degree block)
 export const AV_DIAL_MAX = 0.24;
 
 const ATRIAL_SYSTOLE = 0.10;   // atrial contraction length
