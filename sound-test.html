@@ -24,6 +24,10 @@
   <button data-v="a">A · Sine thump <span>Clean, deep, a bit synthetic</span></button>
   <button data-v="b">B · Noise thud <span>Muffled and fleshy, like through a stethoscope</span></button>
   <button data-v="c">C · Layered <span>A and B together</span></button>
+  <p>Real recordings (one lub and one dub cut from each):</p>
+  <button data-v="d">D · Stethoscope over the tricuspid <span>Healthy 16-year-old, digital stethoscope · Emily Hope, CC BY-SA 4.0</span></button>
+  <button data-v="e">E · Plain heartbeat recording <span>Wilfredor, public domain (CC0)</span></button>
+  <button data-v="f">F · Cleaned-up heartbeat, 61 bpm <span>Benboncan (Freesound), CC BY 3.0</span></button>
   <p id="saved"></p>
 </main>
 <script type="module">
@@ -34,7 +38,7 @@
       const v = b.dataset.v;
       const a = players[v] || (players[v] = createAudio(v));
       a.resume();
-      const t0 = a.ctx.currentTime + 0.1;
+      const t0 = a.ctx.currentTime + 0.4; // gives recorded clips time to load on first press
       for (let i = 0; i < 3; i++) { a.s1(t0 + i * 4.8); a.s2(t0 + i * 4.8 + 1.7); }
       document.querySelectorAll('button[data-v]').forEach(x => x.classList.toggle('playing', x === b));
       localStorage.setItem('cellrun-sound', v);

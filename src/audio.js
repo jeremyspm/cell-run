@@ -1,6 +1,8 @@
 // Heart sounds synthesised with Web Audio (no sound files).
 // S1 "lub" = AV valves shutting (longer, lower); S2 "dub" = semilunar valves shutting (shorter, higher).
 // Variants: a = sine thump, b = filtered noise thud, c = both layered.
+// d, e, f = real recordings (one lub and one dub cut from each; credits in README / audio/CREDITS.md).
+export const RECORDED = { d: 'audio/d', e: 'audio/e', f: 'audio/f' };
 const S1 = { freq: 55, dur: 0.18 }, S2 = { freq: 75, dur: 0.11 };
 
 export function createAudio(variant = 'a') {
@@ -28,7 +30,22 @@ export function createAudio(variant = 'a') {
     g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(vol * 2.2, at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, at + dur * 1.2);
     src.connect(f).connect(g).connect(master); src.start(at, Math.random()); src.stop(at + dur * 1.3);
   }
+  // Recorded variants: fetch and decode the two clips once.
+  const clips = {};
+  if (RECORDED[variant]) {
+    for (const k of ['s1', 's2']) {
+      fetch(new URL('../' + RECORDED[variant] + '-' + k + '.wav', import.meta.url))
+        .then(r => r.arrayBuffer()).then(b => ctx.decodeAudioData(b)).then(buf => { clips[k] = buf; }).catch(() => {});
+    }
+  }
+  function clip(k, at) {
+    if (!clips[k]) return false;
+    const src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = clips[k]; g.gain.value = 1.0; src.connect(g).connect(master); src.start(at);
+    return true;
+  }
   function play(spec, at = ctx.currentTime + 0.01) {
+    if (RECORDED[variant]) { if (clip(spec === S1 ? 's1' : 's2', at)) return; }
     if (variant === 'a') sine(spec, at, 0.9);
     else if (variant === 'b') thud(spec, at, 0.9);
     else { sine(spec, at, 0.6); thud(spec, at, 0.6); }
@@ -58,5 +75,5 @@ export function createAudio(variant = 'a') {
 export function pickVariant() {
   const q = new URLSearchParams(location.search).get('sound');
   const v = q || localStorage.getItem('cellrun-sound') || 'a';
-  return ['a', 'b', 'c'].includes(v) ? v : 'a';
+  return ['a', 'b', 'c', 'd', 'e', 'f'].includes(v) ? v : 'a';
 }
